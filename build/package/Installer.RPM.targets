@@ -196,9 +196,13 @@
 
     <Exec Command="sudo yum -y install $(SdkInstallerFile)" />
 
-    <!-- Run Restore -->
+    <!-- Run Tests -->
     <DotNetRestore ProjectPath="$(EndToEndTestProject)"
                    ToolPath="$(RpmInstalledDirectory)" />
+
+    <DotNetTest ProjectPath="$(EndToEndTestProject)"
+                EnvironmentVariables="@(TestSdkDebTaskEnvironmentVariables)"
+                ToolPath="$(RpmInstalledDirectory)" />
 
     <!-- Clean up Packages -->
     <Exec Command="sudo yum remove -y $(SdkRpmPackageName)" />
