@@ -3,9 +3,6 @@
 # Copyright (c) .NET Foundation and contributors. All rights reserved.
 # Licensed under the MIT license. See LICENSE file in the project root for full license information.
 #
-echo "Creating dotnet host symbolic link: /usr/bin/dotnet"
-ln -sf "/usr/share/dotnet/dotnet" "/usr/bin/dotnet"
-
 echo "This software may collect information about you and your use of the software, and send that to Microsoft."
 echo "Please visit http://aka.ms/dotnet-cli-eula for more information."
 
