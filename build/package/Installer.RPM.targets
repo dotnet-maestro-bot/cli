@@ -34,7 +34,7 @@
     <PropertyGroup>
       <RpmLayoutDirectory>$(RpmIntermediatesDir)/RpmLayoutDirectory/</RpmLayoutDirectory>
       <RpmLayoutPackageRoot>$(RpmLayoutDirectory)package_root</RpmLayoutPackageRoot>
-      <rpmLayoutSDK>$(RpmLayoutPackageRoot)/sdk</rpmLayoutSDK>
+      <RpmLayoutSDK>$(RpmLayoutPackageRoot)/sdk</RpmLayoutSDK>
       <rpmLayoutDocs>$(RpmLayoutDirectory)docs</rpmLayoutDocs>                <!-- Man Pages -->
       <rpmLayoutTemplates>$(RpmLayoutDirectory)templates</rpmLayoutTemplates> <!-- Copyright, Changelog -->
       <rpmLayoutScripts>$(RpmLayoutDirectory)scripts</rpmLayoutScripts>
@@ -63,7 +63,7 @@
     <RemoveDir Condition="Exists('$(RpmLayoutDirectory)')" Directories="$(RpmLayoutDirectory)"/>
     <MakeDir Directories="$(RpmLayoutDirectory)"/>
     <MakeDir Directories="$(RpmLayoutPackageRoot)"/>
-    <MakeDir Directories="$(rpmLayoutSDK)"/>
+    <MakeDir Directories="$(RpmLayoutSDK)"/>
     <MakeDir Directories="$(rpmLayoutDocs)"/>
     <MakeDir Directories="$(rpmLayoutTemplates)"/>
     <MakeDir Directories="$(rpmLayoutScripts)"/>
@@ -78,7 +78,7 @@
     </ItemGroup>
 
     <Copy SourceFiles="@(SDKFiles)"
-          DestinationFiles="@(SDKFiles->'$(rpmLayoutSDK)/%(RecursiveDir)%(Filename)%(Extension)')"
+          DestinationFiles="@(SDKFiles->'$(RpmLayoutSDK)/%(RecursiveDir)%(Filename)%(Extension)')"
           OverwriteReadOnlyFiles="True"
           SkipUnchangedFiles="False"
           UseHardlinksIfPossible="False"/>
