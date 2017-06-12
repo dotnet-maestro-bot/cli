@@ -14,10 +14,11 @@ RUN echo 'code_executor ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 # With the User Change, we need to change permssions on these directories
 RUN chmod -R a+rwx /usr/local
 RUN chmod -R a+rwx /home
-RUN chmod -R 755 /usr/bin/sudo
 
 # Set user to the one we just created
 USER ${USER_ID}
 
 # Set working directory
 WORKDIR /opt/code
+
+RUN sudo which sudo
