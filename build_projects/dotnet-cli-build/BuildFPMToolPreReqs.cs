@@ -21,14 +21,19 @@ namespace Microsoft.DotNet.Build.Tasks
     {
         [Required]
         public string InputDir { get; set; }
+
         [Required]
         public string OutputDir { get; set; }
+
         [Required]
         public string PackageVersion { get; set; }
+
         [Required]
         public string ConfigJsonFile { get; set; }
+
         [Output]
         public string FPMParameters { get; set; }
+
         public override bool Execute()
         {
             try
@@ -85,7 +90,7 @@ namespace Microsoft.DotNet.Build.Tasks
                 str = str.Replace("{MAINTAINER_NAME}", configJson.Maintainer_Name);
                 str = str.Replace("{MAINTAINER_EMAIL}", configJson.Maintainer_Email);
                 // The date format needs to be like Wed May 17 2017
-                str = str.Replace("{DATE}", DateTime.UtcNow.ToString("ddd MMM dd yyyy")); 
+                str = str.Replace("{DATE}", DateTime.UtcNow.ToString("ddd MMM dd yyyy"));
                 File.WriteAllText(changelogFile, str);
             }
             catch (Exception e)
@@ -181,26 +186,40 @@ namespace Microsoft.DotNet.Build.Tasks
                     }
                 }
             }
-            
+
             parameters.Add("--rpm-os linux");
-            parameters.Add(string.Concat("--rpm-changelog ", EscapeArg(Path.Combine(InputDir, "templates", "changelog")))); // Changelog File
+            parameters.Add(string.Concat("--rpm-changelog ",
+                EscapeArg(Path.Combine(InputDir, "templates", "changelog")))); // Changelog File
             parameters.Add(string.Concat("--rpm-summary ", EscapeArg(configJson.Short_Description)));
             parameters.Add(string.Concat("--description ", EscapeArg(configJson.Long_Description)));
-            parameters.Add(string.Concat("--maintainer ", EscapeArg(configJson.Maintainer_Name + " <" + configJson.Maintainer_Email + ">")));
-            parameters.Add(string.Concat("--vendor ", EscapeArg(configJson.Vendor)));            
+            parameters.Add(string.Concat("--maintainer ",
+                EscapeArg(configJson.Maintainer_Name + " <" + configJson.Maintainer_Email + ">")));
+            parameters.Add(string.Concat("--vendor ", EscapeArg(configJson.Vendor)));
             parameters.Add(string.Concat("-p ", Path.Combine(OutputDir, configJson.Package_Name + ".rpm")));
-            if (configJson.Package_Conflicts != null) parameters.Add(string.Concat("--conflicts ", EscapeArg(string.Join(",", configJson.Package_Conflicts))));
-            if (configJson.After_Install_Source != null) parameters.Add(string.Concat("--after-install ", Path.Combine(InputDir, EscapeArg(configJson.After_Install_Source))));
-            if (configJson.After_Remove_Source != null) parameters.Add(string.Concat("--after-remove ", Path.Combine(InputDir, EscapeArg(configJson.After_Remove_Source))));
+            if (configJson.Package_Conflicts != null)
+                parameters.Add(string.Concat("--conflicts ",
+                    EscapeArg(string.Join(",", configJson.Package_Conflicts))));
+            if (configJson.After_Install_Source != null)
+                parameters.Add(string.Concat("--after-install ",
+                    Path.Combine(InputDir, EscapeArg(configJson.After_Install_Source))));
+            if (configJson.After_Remove_Source != null)
+                parameters.Add(string.Concat("--after-remove ",
+                    Path.Combine(InputDir, EscapeArg(configJson.After_Remove_Source))));
             parameters.Add(string.Concat("--license ", EscapeArg(configJson.License.Type)));
             parameters.Add(string.Concat("--iteration ", configJson.Release.Package_Revision));
             parameters.Add(string.Concat("--url ", "\"", EscapeArg(configJson.Homepage), "\""));
             parameters.Add("--verbose");
 
             // Map all the payload directories as they need to install on the system 
-            if (configJson.Install_Root != null) parameters.Add(string.Concat(Path.Combine(InputDir, "package_root/="), configJson.Install_Root)); // Package Files
-            if (configJson.Install_Man != null) parameters.Add(string.Concat(Path.Combine(InputDir, "docs", "host/="), configJson.Install_Man)); // Man Pages
-            if (configJson.Install_Doc != null) parameters.Add(string.Concat(Path.Combine(InputDir, "templates", "copyright="), configJson.Install_Doc)); // CopyRight File
+            if (configJson.Install_Root != null)
+                parameters.Add(string.Concat(Path.Combine(InputDir, "package_root/="),
+                    configJson.Install_Root)); // Package Files
+            if (configJson.Install_Man != null)
+                parameters.Add(string.Concat(Path.Combine(InputDir, "docs", "host/="),
+                    configJson.Install_Man)); // Man Pages
+            if (configJson.Install_Doc != null)
+                parameters.Add(string.Concat(Path.Combine(InputDir, "templates", "copyright="),
+                    configJson.Install_Doc)); // CopyRight File
 
             return string.Join(" ", parameters);
         }
@@ -250,11 +269,12 @@ namespace Microsoft.DotNet.Build.Tasks
 
             return sb.ToString();
         }
+
         private bool ShouldSurroundWithQuotes(string argument)
         {
             // Don't quote already quoted strings
             if (argument.StartsWith("\"", StringComparison.Ordinal) &&
-                    argument.EndsWith("\"", StringComparison.Ordinal))
+                argument.EndsWith("\"", StringComparison.Ordinal))
             {
                 return false;
             }
@@ -293,6 +313,7 @@ namespace Microsoft.DotNet.Build.Tasks
         public string After_Install_Source { get; set; }
         public string After_Remove_Source { get; set; }
     }
+
     public class Release
     {
         public string Package_Version { get; set; }
@@ -300,17 +321,20 @@ namespace Microsoft.DotNet.Build.Tasks
         public string Urgency { get; set; }
         public string Changelog_Message { get; set; }
     }
+
     public class Control
     {
         public string Priority { get; set; }
         public string Section { get; set; }
         public string Architecture { get; set; }
     }
+
     public class License
     {
         public string Type { get; set; }
         public string Full_Text { get; set; }
     }
+
     public class RpmDependency
     {
         public string Package_Name { get; set; }
