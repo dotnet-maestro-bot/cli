@@ -6,17 +6,17 @@
   <UsingTask TaskName="BuildFPMToolPreReqs" AssemblyFile="$(CLIBuildDll)"/>
 
   <PropertyGroup>
-    <BuildRpmPackage Condition=" '$(IsRPMBasedDistro)' == True ">True</BuildRpmPackage>
+    <BuildRpmPackage Condition=" '$(IsRPMBasedDistro)' == 'True' ">True</BuildRpmPackage>
   </PropertyGroup>
 
   <Target Name="GenerateRpms"
           DependsOnTargets="TestFPMTool;BuildRpms;TestSdkRpm"
-          Condition=" '$(BuildRpmPackage)'=='True' "
+          Condition=" '$(BuildRpmPackage)' == 'True' "
           Outputs="@(GeneratedInstallers)"/>
 
   <Target Name="BuildRpms"
           DependsOnTargets="GenerateSharedHostRpm"
-          Condition=" '$(BuildRpmPackage)'=='True' and '$(FPMPresent)'=='True' "/>
+          Condition=" '$(BuildRpmPackage)' == 'True' and '$(FPMPresent)' == 'True' "/>
 
   <Target Name="GenerateSharedHostRpm">
     <PropertyGroup>
@@ -176,13 +176,13 @@
     </PropertyGroup>
 
     <!-- Workaround for Jenkins machines that don't have the necessary packages https://github.com/dotnet/core-setup/issues/2260 -->
-    <Message Condition=" '$(FPMPresent)'  != 'True' "
+    <Message Condition=" '$(FPMPresent)' != 'True' "
              Text="FPM tool Not found, RPM packages will not be built."
              Importance="High"/>
   </Target>
 
   <Target Name="TestSdkRpm"
-          Condition=" '$(IsRPMBasedDistro)' == True and '$(FPMPresent)'  == 'True' "
+          Condition=" '$(IsRPMBasedDistro)' == 'True' and '$(FPMPresent)' == 'True' "
           Inputs="$(DownloadedSharedHostInstallerFile);
               $(DownloadedHostFxrInstallerFile);
               $(DownloadedSharedFrameworkInstallerFile);
