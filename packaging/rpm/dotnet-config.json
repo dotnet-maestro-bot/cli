@@ -15,7 +15,6 @@
     },
     "control": {
         "priority": "standard",
-        "section": "libs",
         "architecture": "amd64"
     },
     "copyright": "2015 Microsoft",

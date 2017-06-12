@@ -322,7 +322,6 @@ namespace Microsoft.DotNet.Build.Tasks
     public class Control
     {
         public string Priority { get; set; }
-        public string Section { get; set; }
         public string Architecture { get; set; }
     }
 
