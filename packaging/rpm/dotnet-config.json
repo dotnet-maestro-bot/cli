@@ -11,7 +11,6 @@
     "release": {
         "package_version": "1.0.0.0",
         "package_revision": "1",
-        "urgency": "low",
         "changelog_message": "Bootstrap loop package"
     },
     "control": {

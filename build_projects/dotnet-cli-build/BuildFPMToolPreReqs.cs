@@ -85,7 +85,6 @@ namespace Microsoft.DotNet.Build.Tasks
                 str = str.Replace("{PACKAGE_NAME}", configJson.Package_Name);
                 str = str.Replace("{PACKAGE_VERSION}", package_version);
                 str = str.Replace("{PACKAGE_REVISION}", configJson.Release.Package_Revision);
-                str = str.Replace("{URGENCY}", configJson.Release.Urgency);
                 str = str.Replace("{CHANGELOG_MESSAGE}", configJson.Release.Changelog_Message);
                 str = str.Replace("{MAINTAINER_NAME}", configJson.Maintainer_Name);
                 str = str.Replace("{MAINTAINER_EMAIL}", configJson.Maintainer_Email);
@@ -317,7 +316,6 @@ namespace Microsoft.DotNet.Build.Tasks
     {
         public string Package_Version { get; set; }
         public string Package_Revision { get; set; }
-        public string Urgency { get; set; }
         public string Changelog_Message { get; set; }
     }
 
