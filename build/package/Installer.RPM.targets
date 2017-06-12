@@ -37,7 +37,7 @@
       <RpmLayoutSDK>$(RpmLayoutPackageRoot)/sdk</RpmLayoutSDK>
       <RpmLayoutDocs>$(RpmLayoutDirectory)docs</RpmLayoutDocs>                <!-- Man Pages -->
       <RpmLayoutTemplates>$(RpmLayoutDirectory)templates</RpmLayoutTemplates> <!-- Copyright, Changelog -->
-      <rpmLayoutScripts>$(RpmLayoutDirectory)scripts</rpmLayoutScripts>
+      <RpmLayoutScripts>$(RpmLayoutDirectory)scripts</RpmLayoutScripts>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -66,7 +66,7 @@
     <MakeDir Directories="$(RpmLayoutSDK)"/>
     <MakeDir Directories="$(RpmLayoutDocs)"/>
     <MakeDir Directories="$(RpmLayoutTemplates)"/>
-    <MakeDir Directories="$(rpmLayoutScripts)"/>
+    <MakeDir Directories="$(RpmLayoutScripts)"/>
 
     <!-- Copy files to rpm layout -->
     <ItemGroup>
@@ -96,7 +96,7 @@
           UseHardlinksIfPossible="False"/>
 
     <Copy SourceFiles="@(SDKScriptsFiles)"
-          DestinationFiles="@(SDKScriptsFiles->'$(rpmLayoutScripts)/%(RecursiveDir)%(Filename)%(Extension)')"
+          DestinationFiles="@(SDKScriptsFiles->'$(RpmLayoutScripts)/%(RecursiveDir)%(Filename)%(Extension)')"
           OverwriteReadOnlyFiles="True"
           SkipUnchangedFiles="False"
           UseHardlinksIfPossible="False"/>
