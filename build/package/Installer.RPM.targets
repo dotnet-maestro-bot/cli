@@ -15,10 +15,10 @@
           Outputs="@(GeneratedInstallers)"/>
 
   <Target Name="BuildRpms"
-          DependsOnTargets="GenerateSharedHostRpm"
+          DependsOnTargets="GenerateSdkRpm"
           Condition=" '$(BuildRpmPackage)' == 'True' and '$(FPMPresent)' == 'True' "/>
 
-  <Target Name="GenerateSharedHostRpm">
+  <Target Name="GenerateSdkRpm">
     <PropertyGroup>
       <RpmPackageVersion>$(SdkVersion)</RpmPackageVersion>
       <InputRoot>$(OutputDirectory)/sdk</InputRoot>
