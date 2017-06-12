@@ -36,36 +36,29 @@ namespace Microsoft.DotNet.Build.Tasks
 
         public override bool Execute()
         {
-            try
+            if (!File.Exists(ConfigJsonFile))
             {
-                if (!File.Exists(ConfigJsonFile))
-                {
-                    throw new FileNotFoundException($"Expected file {ConfigJsonFile} was not found.");
-                }
-
-                // Open the Config Json and read the values into the model
-                TextReader projectFileReader = File.OpenText(ConfigJsonFile);
-                if (projectFileReader != null)
-                {
-                    string jsonFileText = projectFileReader.ReadToEnd();
-                    ConfigJson configJson = JsonConvert.DeserializeObject<ConfigJson>(jsonFileText);
-
-                    // Update the Changelog and Copyright files by replacing tokens with values from config json
-                    UpdateChangelog(configJson, PackageVersion);
-                    UpdateCopyRight(configJson);
-
-                    // Build the full list of parameters 
-                    FPMParameters = BuildCmdParameters(configJson, PackageVersion);
-                    Log.LogMessage(MessageImportance.Normal, "Generated RPM paramters:  " + FPMParameters);
-                }
-                else
-                {
-                    throw new IOException($"Could not open the file {ConfigJsonFile} for reading.");
-                }
+                throw new FileNotFoundException($"Expected file {ConfigJsonFile} was not found.");
             }
-            catch (Exception e)
+
+            // Open the Config Json and read the values into the model
+            TextReader projectFileReader = File.OpenText(ConfigJsonFile);
+            if (projectFileReader != null)
             {
-                Log.LogError("Exception while processing RPM paramters: " + e.Message);
+                string jsonFileText = projectFileReader.ReadToEnd();
+                ConfigJson configJson = JsonConvert.DeserializeObject<ConfigJson>(jsonFileText);
+
+                // Update the Changelog and Copyright files by replacing tokens with values from config json
+                UpdateChangelog(configJson, PackageVersion);
+                UpdateCopyRight(configJson);
+
+                // Build the full list of parameters 
+                FPMParameters = BuildCmdParameters(configJson, PackageVersion);
+                Log.LogMessage(MessageImportance.Normal, "Generated RPM paramters:  " + FPMParameters);
+            }
+            else
+            {
+                throw new IOException($"Could not open the file {ConfigJsonFile} for reading.");
             }
 
             return !Log.HasLoggedErrors;
@@ -74,50 +67,35 @@ namespace Microsoft.DotNet.Build.Tasks
         // Update the tokens in the changelog file from the config Json 
         private void UpdateChangelog(ConfigJson configJson, string package_version)
         {
-            try
+            string changelogFile = Path.Combine(InputDir, "templates", "changelog");
+            if (!File.Exists(changelogFile))
             {
-                string changelogFile = Path.Combine(InputDir, "templates", "changelog");
-                if (!File.Exists(changelogFile))
-                {
-                    throw new FileNotFoundException($"Expected file {changelogFile} was not found.");
-                }
-                string str = File.ReadAllText(changelogFile);
-                str = str.Replace("{PACKAGE_NAME}", configJson.Package_Name);
-                str = str.Replace("{PACKAGE_VERSION}", package_version);
-                str = str.Replace("{PACKAGE_REVISION}", configJson.Release.Package_Revision);
-                str = str.Replace("{CHANGELOG_MESSAGE}", configJson.Release.Changelog_Message);
-                str = str.Replace("{MAINTAINER_NAME}", configJson.Maintainer_Name);
-                str = str.Replace("{MAINTAINER_EMAIL}", configJson.Maintainer_Email);
-                // The date format needs to be like Wed May 17 2017
-                str = str.Replace("{DATE}", DateTime.UtcNow.ToString("ddd MMM dd yyyy"));
-                File.WriteAllText(changelogFile, str);
+                throw new FileNotFoundException($"Expected file {changelogFile} was not found.");
             }
-            catch (Exception e)
-            {
-                Log.LogError("Exception while updating the changelog file: " + e.Message);
-            }
+            string str = File.ReadAllText(changelogFile);
+            str = str.Replace("{PACKAGE_NAME}", configJson.Package_Name);
+            str = str.Replace("{PACKAGE_VERSION}", package_version);
+            str = str.Replace("{PACKAGE_REVISION}", configJson.Release.Package_Revision);
+            str = str.Replace("{CHANGELOG_MESSAGE}", configJson.Release.Changelog_Message);
+            str = str.Replace("{MAINTAINER_NAME}", configJson.Maintainer_Name);
+            str = str.Replace("{MAINTAINER_EMAIL}", configJson.Maintainer_Email);
+            // The date format needs to be like Wed May 17 2017
+            str = str.Replace("{DATE}", DateTime.UtcNow.ToString("ddd MMM dd yyyy"));
+            File.WriteAllText(changelogFile, str);
         }
 
         public void UpdateCopyRight(ConfigJson configJson)
         {
-            try
+            string copyrightFile = Path.Combine(InputDir, "templates", "copyright");
+            if (!File.Exists(copyrightFile))
             {
-                // Update the tokens in the copyright file from the config Json 
-                string copyrightFile = Path.Combine(InputDir, "templates", "copyright");
-                if (!File.Exists(copyrightFile))
-                {
-                    throw new FileNotFoundException($"Expected file {copyrightFile} was not found.");
-                }
-                string str = File.ReadAllText(copyrightFile);
-                str = str.Replace("{COPYRIGHT_TEXT}", configJson.CopyRight);
-                str = str.Replace("{LICENSE_NAME}", configJson.License.Type);
-                str = str.Replace("{LICENSE_TEXT}", configJson.License.Full_Text);
-                File.WriteAllText(copyrightFile, str);
+                throw new FileNotFoundException($"Expected file {copyrightFile} was not found.");
             }
-            catch (Exception e)
-            {
-                Log.LogError("Exception while updating the copyright file: " + e.Message);
-            }
+            string str = File.ReadAllText(copyrightFile);
+            str = str.Replace("{COPYRIGHT_TEXT}", configJson.CopyRight);
+            str = str.Replace("{LICENSE_NAME}", configJson.License.Type);
+            str = str.Replace("{LICENSE_TEXT}", configJson.License.Full_Text);
+            File.WriteAllText(copyrightFile, str);
         }
 
         private string BuildCmdParameters(ConfigJson configJson, string package_version)
