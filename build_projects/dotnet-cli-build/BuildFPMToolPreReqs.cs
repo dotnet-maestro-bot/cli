@@ -112,7 +112,6 @@ namespace Microsoft.DotNet.Build.Tasks
                 string str = File.ReadAllText(copyrightFile);
                 str = str.Replace("{COPYRIGHT_TEXT}", configJson.CopyRight);
                 str = str.Replace("{LICENSE_NAME}", configJson.License.Type);
-                str = str.Replace("{LICENSE_NAME}", configJson.License.Type);
                 str = str.Replace("{LICENSE_TEXT}", configJson.License.Full_Text);
                 File.WriteAllText(copyrightFile, str);
             }
