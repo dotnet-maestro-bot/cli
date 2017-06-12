@@ -33,8 +33,8 @@
 
     <PropertyGroup>
       <RpmLayoutDirectory>$(RpmIntermediatesDir)/RpmLayoutDirectory/</RpmLayoutDirectory>
-      <rpmLayoutPackageRoot>$(RpmLayoutDirectory)package_root</rpmLayoutPackageRoot>
-      <rpmLayoutSDK>$(rpmLayoutPackageRoot)/sdk</rpmLayoutSDK>
+      <RpmLayoutPackageRoot>$(RpmLayoutDirectory)package_root</RpmLayoutPackageRoot>
+      <rpmLayoutSDK>$(RpmLayoutPackageRoot)/sdk</rpmLayoutSDK>
       <rpmLayoutDocs>$(RpmLayoutDirectory)docs</rpmLayoutDocs>                <!-- Man Pages -->
       <rpmLayoutTemplates>$(RpmLayoutDirectory)templates</rpmLayoutTemplates> <!-- Copyright, Changelog -->
       <rpmLayoutScripts>$(RpmLayoutDirectory)scripts</rpmLayoutScripts>
@@ -62,7 +62,7 @@
     <!-- Create empty rpm layout -->
     <RemoveDir Condition="Exists('$(RpmLayoutDirectory)')" Directories="$(RpmLayoutDirectory)"/>
     <MakeDir Directories="$(RpmLayoutDirectory)"/>
-    <MakeDir Directories="$(rpmLayoutPackageRoot)"/>
+    <MakeDir Directories="$(RpmLayoutPackageRoot)"/>
     <MakeDir Directories="$(rpmLayoutSDK)"/>
     <MakeDir Directories="$(rpmLayoutDocs)"/>
     <MakeDir Directories="$(rpmLayoutTemplates)"/>
@@ -102,7 +102,7 @@
           UseHardlinksIfPossible="False"/>
 
     <Copy SourceFiles="@(AspNetRuntimeFilesInput)"
-          DestinationFiles="@(AspNetRuntimeFilesInput ->'$(rpmLayoutPackageRoot)/%(RecursiveDir)%(Filename)%(Extension)')"
+          DestinationFiles="@(AspNetRuntimeFilesInput ->'$(RpmLayoutPackageRoot)/%(RecursiveDir)%(Filename)%(Extension)')"
           OverwriteReadOnlyFiles="True"
           SkipUnchangedFiles="False"
           UseHardlinksIfPossible="False"/>
