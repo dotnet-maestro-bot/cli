@@ -6,8 +6,6 @@
 # Dockerfile that creates a container suitable to build dotnet-cli
 FROM microsoft/dotnet-buildtools-prereqs:rhel-7-rpmpkg-c982313-20174116044113
 
-RUN yum -q -y install sudo
-
 # Setup User to match Host User, and give superuser permissions
 ARG USER_ID=0
 RUN useradd -m code_executor -u ${USER_ID} -g root
