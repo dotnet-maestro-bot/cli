@@ -20,8 +20,7 @@
          NOTE: There isn't a 'linux-x64' version of the installers or the additional shared framweork. -->
     <SharedFrameworkRid>$(CoreSetupRid)</SharedFrameworkRid>
     <SharedFrameworkRid Condition=" '$(UsePortableLinuxSharedFramework)' == 'true' ">linux-x64</SharedFrameworkRid>
-    <CombinedFrameworkHostCompressedFilePrefix>dotnet-runtime</CombinedFrameworkHostCompressedFilePrefix>
-    <CombinedFrameworkHostCompressedFileName>$(CombinedFrameworkHostCompressedFilePrefix)-$(SharedFrameworkVersion)-$(SharedFrameworkRid)$(ArchiveExtension)</CombinedFrameworkHostCompressedFileName>
+    <CombinedFrameworkHostCompressedFileName>dotnet-runtime-$(SharedFrameworkVersion)-$(SharedFrameworkRid)$(ArchiveExtension)</CombinedFrameworkHostCompressedFileName>
   </PropertyGroup>
 
   <PropertyGroup>
