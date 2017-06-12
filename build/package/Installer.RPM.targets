@@ -32,12 +32,12 @@
     </PropertyGroup>
 
     <PropertyGroup>
-      <rpmLayoutDirectory>$(RpmIntermediatesDir)/rpmLayoutDirectory/</rpmLayoutDirectory>
-      <rpmLayoutPackageRoot>$(rpmLayoutDirectory)package_root</rpmLayoutPackageRoot>
+      <RpmLayoutDirectory>$(RpmIntermediatesDir)/RpmLayoutDirectory/</RpmLayoutDirectory>
+      <rpmLayoutPackageRoot>$(RpmLayoutDirectory)package_root</rpmLayoutPackageRoot>
       <rpmLayoutSDK>$(rpmLayoutPackageRoot)/sdk</rpmLayoutSDK>
-      <rpmLayoutDocs>$(rpmLayoutDirectory)docs</rpmLayoutDocs>                <!-- Man Pages -->
-      <rpmLayoutTemplates>$(rpmLayoutDirectory)templates</rpmLayoutTemplates> <!-- Copyright, Changelog -->
-      <rpmLayoutScripts>$(rpmLayoutDirectory)scripts</rpmLayoutScripts>
+      <rpmLayoutDocs>$(RpmLayoutDirectory)docs</rpmLayoutDocs>                <!-- Man Pages -->
+      <rpmLayoutTemplates>$(RpmLayoutDirectory)templates</rpmLayoutTemplates> <!-- Copyright, Changelog -->
+      <rpmLayoutScripts>$(RpmLayoutDirectory)scripts</rpmLayoutScripts>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -60,8 +60,8 @@
     <MakeDir Directories="$(RpmIntermediatesDir)"/>
 
     <!-- Create empty rpm layout -->
-    <RemoveDir Condition="Exists('$(rpmLayoutDirectory)')" Directories="$(rpmLayoutDirectory)"/>
-    <MakeDir Directories="$(rpmLayoutDirectory)"/>
+    <RemoveDir Condition="Exists('$(RpmLayoutDirectory)')" Directories="$(RpmLayoutDirectory)"/>
+    <MakeDir Directories="$(RpmLayoutDirectory)"/>
     <MakeDir Directories="$(rpmLayoutPackageRoot)"/>
     <MakeDir Directories="$(rpmLayoutSDK)"/>
     <MakeDir Directories="$(rpmLayoutDocs)"/>
@@ -132,14 +132,14 @@
     </ItemGroup>
 
     <ReplaceFileContents InputFile="$(ConfigJsonFile)"
-                         DestinationFile="$(rpmLayoutDirectory)$(rpmConfigJsonName)"
+                         DestinationFile="$(RpmLayoutDirectory)$(RpmConfigJsonName)"
                          ReplacementItems="@(SDKTokenValue)"/>
 
     <!-- Call the task to build the pre-reqs (parameters, copyright, changelog) for calling the FPM tool -->
-    <BuildFPMToolPreReqs InputDir="$(rpmLayoutDirectory)"
+    <BuildFPMToolPreReqs InputDir="$(RpmLayoutDirectory)"
                          OutputDir="$(RpmIntermediatesDir)"
                          PackageVersion="$(RpmPackageVersion)"
-                         ConfigJsonFile="$(rpmLayoutDirectory)$(rpmConfigJsonName)">
+                         ConfigJsonFile="$(RpmLayoutDirectory)$(RpmConfigJsonName)">
       <Output TaskParameter="FPMParameters" PropertyName="FPMCmdParameters"/>
     </BuildFPMToolPreReqs>
 
