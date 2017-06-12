@@ -48,7 +48,7 @@ namespace Microsoft.DotNet.Build.Tasks
 
             // Update the Changelog and Copyright files by replacing tokens with values from config json
             UpdateChangelog(configJson, PackageVersion);
-            UpdateCopyRight(configJson);
+            UpdateCopyright(configJson);
 
             // Build the full list of parameters 
             FPMParameters = BuildCmdParameters(configJson, PackageVersion);
@@ -77,7 +77,7 @@ namespace Microsoft.DotNet.Build.Tasks
             File.WriteAllText(changelogFile, str);
         }
 
-        public void UpdateCopyRight(ConfigJson configJson)
+        public void UpdateCopyright(ConfigJson configJson)
         {
             string copyrightFile = Path.Combine(InputDir, "templates", "copyright");
             if (!File.Exists(copyrightFile))
