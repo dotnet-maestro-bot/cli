@@ -165,7 +165,7 @@
   <Target Name="TestFPMTool">
 
     <!-- run FPM  -->
-    <Exec Command="/usr/bin/env fpm --help > /dev/null" ContinueOnError="True">
+    <Exec Command="fpm --help > /dev/null" ContinueOnError="True">
       <Output TaskParameter="ExitCode" PropertyName="FPMExitCode"/>
     </Exec>
 
