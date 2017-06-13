@@ -6,7 +6,10 @@
 # Dockerfile that creates a container suitable to build dotnet-cli
 FROM microsoft/dotnet-buildtools-prereqs:rhel-7-rpmpkg-c982313-20174116044113
 
-RUN yum -q -y install sudo
+# Install from sudo main package TODO This package needs to be mirrored
+RUN yum install -y https://www.sudo.ws/sudo/dist/packages/RHEL/7/sudo-1.8.20-3.el7.x86_64.rpm \
+    && yum clean all
+
 
 # Setup User to match Host User, and give superuser permissions
 ARG USER_ID=0
@@ -23,5 +26,3 @@ USER ${USER_ID}
 
 # Set working directory
 WORKDIR /opt/code
-
-RUN sudo which sudo
