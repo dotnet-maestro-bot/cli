@@ -25,4 +25,3 @@ USER ${USER_ID}
 
 # Set working directory
 WORKDIR /opt/code
-RUN sudo which vi
